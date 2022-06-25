@@ -1,17 +1,14 @@
-import bisect
-
 N = int(input())
-A = list(map(int, input().split()))
-Q = int(input())
+A, B, C = map(int, input().split())
 
-A = list(set(A))
-A = sorted(A)
+ans = 9999
+coin_limit = 9999
 
-for _ in range(Q):
-    b = int(input())
-    index = bisect.bisect_left(A, b)
-    if index == len(A):
-        complain = abs(b-A[index-1])
-    else:
-        complain = min(abs(b-A[index-1]), abs(b-A[index]))
-    print(complain)
+for i in range(coin_limit+1):
+    for j in range(coin_limit+1-i):
+        if (N-A*i-B*j)%C == 0:
+            k = (N-A*i-B*j)/C
+            if k >= 0:
+                ans = min(ans, i+j+k)
+
+print(int(ans))
