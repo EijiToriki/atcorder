@@ -21,22 +21,10 @@ chilid_num = len(child_weight)
 
 ans = 0
 
-for i,w in enumerate(W):
-    robot = 0
-    robot += adult_num - bisect.bisect_left(adult_weight, w+0.1)
-    robot += bisect.bisect_left(child_weight, w+0.1)
-    if ans < robot:
-        ans = robot
-
+for i,w in enumerate(W + [max(W)+1]):
     robot = 0
     robot += adult_num - bisect.bisect_left(adult_weight, w)
     robot += bisect.bisect_left(child_weight, w)
-    if ans < robot:
-        ans = robot
-
-    robot = 0
-    robot += adult_num - bisect.bisect_left(adult_weight, w-0.1)
-    robot += bisect.bisect_left(child_weight, w-0.1)
     if ans < robot:
         ans = robot
 
