@@ -1,31 +1,25 @@
-import sys
+N, X = map(int, input().split())
+ab = [map(int, input().split()) for _ in range(N)]
+A, B = [list(i) for i in zip(*ab)]
 
-input = sys.stdin.readline
-
-N, Q = map(int, input().split())
-A = list(map(int, input().split()))
-
-diff = []
+min_stage2 = 10**9+1
+clear_stage = 0
 ans = 0
-
-for i in range(N-1):
-    diff.append(A[i+1]-A[i])
-    ans += abs(A[i+1]-A[i])
-
-for i in range(Q):
-    L, R, V = map(int, input().split())
-    if L == 1 and R == N:
-        pass
-    elif L == 1:
-        ans += abs(diff[R-1]-V) - abs(diff[R-1])
-        diff[R-1] -= V
-    elif R == N:
-        ans += abs((diff[L-2]+V)) - abs(diff[L-2])
-        diff[L-2] += V
+for i in range(N):
+    if clear_stage == 0:
+        ans = A[i] + B[i]
+        clear_stage = 1
+        min_stage2 = B[i]
     else:
-        ans += abs(diff[R-1]-V) - abs(diff[R-1])
-        diff[R-1] -= V
-        ans += abs((diff[L-2]+V)) - abs(diff[L-2])
-        diff[L-2] += V
+        if min_stage2*(X-clear_stage) < A[i] + B[i] + B[i] * (X-clear_stage-1):
+            ans += min_stage2*(X-clear_stage)
+            print(i)
+            break
+        else:
+            ans += A[i] + B[i]
+            if min_stage2 > B[i]:
+                min_stage2 = B[i]
+            clear_stage += 1
 
-    print(ans)
+print(ans)
+    
