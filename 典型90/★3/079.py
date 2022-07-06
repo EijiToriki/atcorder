@@ -1,3 +1,6 @@
+# 問題の主旨は，どのマスから見ても結局変わらないということ
+# だが，H, Wがごちゃついて苦戦した
+
 H, W = map(int, input().split())
 A = [list(map(int, input().split())) for _ in range(H)]
 B = [list(map(int, input().split())) for _ in range(H)]
