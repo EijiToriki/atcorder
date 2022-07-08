@@ -1,20 +1,21 @@
-def count_number(n):
-    keta = 1
-    result = 0
+from bisect import bisect_left
 
-    while True:
-        under = 10**(keta-1) - 1
-        top = min(n, 10**(keta)-1)
-        result += keta * (top*(top+1) // 2 - under*(under+1) // 2)
+N = int(input())
+S = input()
 
-        if len(str(n)) == keta:
-            return result
-        
-        keta += 1
+ans = N*(N+1) // 2
 
+focus_char = S[0]
+focus_point = 1
+for i in range(1,N):
+    if S[i] == focus_char:
+        focus_point += 1
+    else:
+        ans -= focus_point*(focus_point+1) // 2
+        focus_char = S[i]
+        focus_point = 1
 
+ans -= focus_point*(focus_point+1) // 2
 
-L,R = map(int, input().split())
-MOD = 10**9+7
+print(ans)
 
-print((count_number(R)-count_number(L-1))%MOD)
