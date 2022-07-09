@@ -1,21 +1,29 @@
-from bisect import bisect_left
-
-N = int(input())
+import sys
+ 
 S = input()
-
-ans = N*(N+1) // 2
-
-focus_char = S[0]
-focus_point = 1
-for i in range(1,N):
-    if S[i] == focus_char:
-        focus_point += 1
+T = input()
+ 
+if S[0] != T[0] or S[1] != T[1]:
+    print('No')
+    sys.exit()
+ 
+t_index = 2
+for i in range(1, len(S)-1):
+    if S[i+1] != T[t_index]:
+        if S[i] == S[i-1]:
+            focus_char = S[i]
+            while True:
+                if focus_char != T[t_index]:
+                    break
+                t_index += 1
+        else:
+            print('No')
+            sys.exit()
     else:
-        ans -= focus_point*(focus_point+1) // 2
-        focus_char = S[i]
-        focus_point = 1
-
-ans -= focus_point*(focus_point+1) // 2
-
-print(ans)
-
+        t_index += 1
+ 
+if S[-1] != S[-2] and len(T[t_index:]) != 1:
+    print('No')
+    sys.exit()
+ 
+print('Yes')
