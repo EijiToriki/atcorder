@@ -1,13 +1,42 @@
-N = int(input())
-MOD = 998244353
+def is_kaibun(S, N):
+  check_num = N // 2
 
-keta = len(str(N))
-ans = 0
+  for i in range(check_num):
+    if S[i] != S[N-i-1]:
+      return False
+  
+  return True
 
-for i in range(1, keta):
-  buf = (10**i-10**(i-1)) * (10**i-10**(i-1)+1) // 2
-  ans = ans + buf
 
-ans = ans + ((N-10**(keta-1)+1)*(N-10**(keta-1)+2) // 2)
+S = input()
+N = len(S)
 
-print(ans%MOD)
+a_back_cnt = 0
+for i in range(N):
+  if S[-i-1] == 'a':
+    a_back_cnt += 1
+  else:
+    break
+
+S = S[:N-a_back_cnt]
+N = len(S)
+
+
+a_front_cnt = 0
+for i in range(N):
+  if S[i] == 'a':
+    a_front_cnt += 1
+  else:
+    break
+
+S = S[a_front_cnt:]
+N = len(S)
+
+if a_front_cnt > a_back_cnt:
+  print('No')
+else:
+  if is_kaibun(S, N):
+    print('Yes')
+  else:
+    print('No')
+
