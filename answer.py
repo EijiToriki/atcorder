@@ -1,20 +1,40 @@
-N, Q = map(int, input().split())
-A = list(map(int, input().split()))
+N, X, Y = map(int, input().split())
 
-A_dict = {}
-for i in range(N):
-  if A[i] in A_dict:
-    A_dict[A[i]].append(i+1)
+def red(N):
+  if N >= 2:
+    return red(N-1) + X * blue(N)
   else:
-    A_dict[A[i]] = [i+1]
+    return 0
+
+def blue(N):
+  if N >= 2:
+    return red(N-1) + Y * blue(N-1)
+  else:
+    return 1
+
+print(red(N))
 
 
-for _ in range(Q):
-  x,k = map(int, input().split())
-  try:
-    print(A_dict[x][k-1])
-  except IndexError:
-    print(-1)
-  except KeyError:
-    print(-1)
+# if N == 1:
+#   print(0)
+# else:
+#   red = [0 for _ in range(N+1)]
+#   red[1] = 0
+#   red[2] = X*Y + red[1]
 
+#   blue = [0 for _ in range(N+1)]
+#   blue[1] = 0
+#   blue[2] = X*Y
+
+#   for i in range(3, N+1):
+#     blue[i] = X * Y**(i-1)
+#     for j in range(2,i):
+#       print(j)
+#       if j == i-1:
+#         blue[i] += 2 * red[j]
+#       else:
+#         blue[i] += red[j] 
+#     red[i] = blue[i] + red[i-1]
+
+
+#   print(blue[N])
