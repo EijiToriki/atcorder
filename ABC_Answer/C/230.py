@@ -7,6 +7,7 @@ q1_min_k = max(1-A, 1-B)
 q2_max_k = min(N-A, B-1)
 q2_min_k = max(1-A, B-N)
 
+ans_list = []
 for i in range(P,Q+1):
   ans_part = ''
   for j in range(R, S+1):
@@ -24,4 +25,6 @@ for i in range(P,Q+1):
     
     if output_flag:
       ans_part += '.'
-  print(ans_part)
+  ans_list.append(ans_part)
+
+print('\n'.join(ans_list))
