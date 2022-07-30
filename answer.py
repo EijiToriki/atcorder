@@ -1,27 +1,40 @@
-N, A, B = map(int, input().split())
-P, Q, R, S = map(int, input().split())
+# キューのインポート
+from collections import deque
 
-q1_max_k = min(N-A, N-B)
-q1_min_k = max(1-A, 1-B)
+# 入力の受け取り、道路情報はリストで格納
+N = int(input())
+G = [[] for _ in range(N)]
 
-q2_max_k = min(N-A, B-1)
-q2_min_k = max(1-A, B-N)
+# 木構造作る時参考になる
+for _ in range(N-1):
+  A, B = map(int, input().split())
+  G[A-1].append(B-1)
+  G[B-1].append(A-1)
 
-for i in range(P,Q+1):
-  ans_part = []
-  for j in range(R, S+1):
-    output_flag = True
-    if A+q1_min_k <= i <= A+q1_max_k:
-      if B+q1_min_k <= j <= B+q1_max_k and j == B+q1_min_k+i-A-q1_min_k:
-        ans_part.append('#')
-        output_flag = False
+# 都市nから最も離れている都市を求める
+# arr[0]：最も離れている都市番号，arr[1]：最も離れている都市の距離
+def calc_min_dist(n):
+  Q = deque()
+  dist = [-1]*N
+  dist[n] = 0
+  Q.append(n)
 
-    if output_flag:
-      if A+q2_min_k <= i <= A+q2_max_k:
-        if B-q2_max_k <= j <= B-q2_min_k and j == B-q2_min_k-i+A+q2_min_k:
-          ans_part.append('#')
-          output_flag = False
-    
-    if output_flag:
-      ans_part.append('.')
-  print(*ans_part, sep="")
+  arr = [0, 0]
+
+  while Q:
+    i = Q.popleft()
+    for j in G[i]:
+      if dist[j] == -1:
+        a = dist[i]+1
+        dist[j] = a
+        Q.append(j)
+        if a > arr[1]:
+          arr = [j, a]
+
+  return arr
+
+# １回目はノード1から呼び出し、２回目はcalc_min_distからの返り値で呼び出す。
+p, dep = calc_min_dist(0)
+p2, dep2 = calc_min_dist(p)
+
+print(dep2+1)
