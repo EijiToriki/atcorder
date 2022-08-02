@@ -1,17 +1,18 @@
-N = int(input())
-A = list(map(int, input().split()))
+from operator import itemgetter
 
-cnt = 0
-for i in range(N):
-  if A[i] == i+1:
-    cnt += 1
+N, W = map(int, input().split())
+AB = [list(map(int, input().split())) for _ in range(N)]
 
-ans = (cnt-1)*cnt // 2
+AB = sorted(AB, key=itemgetter(0), reverse=True)
 
-cnt = 0
-for i in range(N):
-  if A[A[i]-1] == i+1 and A[i] != i+1:
-    cnt += 1
+ans = 0
+w = 0
+for ab in AB:
+  w += ab[1]
+  if w < W:
+    ans += ab[0] * ab[1]
+  else:
+    ans += ab[0] * (W - (w - ab[1])) 
+    break
 
-ans += cnt // 2
 print(ans)
