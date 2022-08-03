@@ -1,18 +1,18 @@
-from operator import itemgetter
+N, K = map(int, input().split())
+H = list(map(int, input().split()))
 
-N, W = map(int, input().split())
-AB = [list(map(int, input().split())) for _ in range(N)]
+dp = [float('inf') for _ in range(N)]
+dp[0] = 0
 
-AB = sorted(AB, key=itemgetter(0), reverse=True)
+for i in range(1,N):
+  dp_ans = float('inf')
+  for j in range(1, K+1):
+    if i-j < 0:
+      break
+    else:
+      if dp_ans > dp[i-j] + abs(H[i]-H[i-j]):
+        dp_ans = dp[i-j] + abs(H[i]-H[i-j])
+    
+  dp[i] = dp_ans
 
-ans = 0
-w = 0
-for ab in AB:
-  w += ab[1]
-  if w < W:
-    ans += ab[0] * ab[1]
-  else:
-    ans += ab[0] * (W - (w - ab[1])) 
-    break
-
-print(ans)
+print(dp[N-1])
