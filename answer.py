@@ -1,23 +1,20 @@
-N = int(input())
+N, L, R = map(int, input().split())
+A = list(map(int, input().split()))
 
-dp = [0 for _ in range(N)]
-
-
-pre_max_index = -1
+l_loss_plus_list = []
+loss = 0
 for i in range(N):
-  happiness = list(map(int, input().split()))
-  max_val = 0
-  max_index = -1
+  loss += L - A[i]
+  if loss >= 0:
+    l_loss_plus_list.append(i)
 
-  for j in range(3):
-    if j != pre_max_index:
-      if max_val < happiness[j]:
-        max_val = happiness[j]
-        max_index = j
-      elif max_val == happiness[j]:
-        max_index = -1
 
-  pre_max_index = max_index
-  dp[i] = dp[i-1] + max_val
+r_loss_plus_list = []
+loss = 0
+for i in range(N):  
+  loss += R - A[-(i+1)]
+  if loss >= 0:
+    r_loss_plus_list.append(N-i-1)
 
-print(dp[N-1])
+print(l_loss_plus_list)
+print(r_loss_plus_list)
