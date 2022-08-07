@@ -1,20 +1,13 @@
-N, L, R = map(int, input().split())
-A = list(map(int, input().split()))
+N, W = map(int, input().split())
+wv = [list(map(int, input().split())) for _ in range(N)]
 
-l_loss_plus_list = []
-loss = 0
-for i in range(N):
-  loss += L - A[i]
-  if loss >= 0:
-    l_loss_plus_list.append(i)
+dp = [[0 for _ in range(W+1)] for _ in range(N+1)]
 
-
-r_loss_plus_list = []
-loss = 0
-for i in range(N):  
-  loss += R - A[-(i+1)]
-  if loss >= 0:
-    r_loss_plus_list.append(N-i-1)
-
-print(l_loss_plus_list)
-print(r_loss_plus_list)
+for n in range(N):
+  for w in range(W+1):
+    dp[n+1][w] = dp[n][w]
+  for w in range(W+1):
+    if w + wv[n][0] <= W:
+      dp[n+1][w+wv[n][0]] = max(dp[n][w+wv[n][0]], dp[n][w] + wv[n][1])
+    
+print(max(dp[N]))
