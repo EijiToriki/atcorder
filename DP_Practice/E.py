@@ -1,19 +1,19 @@
-# 価値でDP配列を作る
-from collections import defaultdict
-
 N, W = map(int, input().split())
 wv = [list(map(int, input().split())) for _ in range(N)]
 
-dp = defaultdict(int)
+dp = [[float('inf') for _ in range((10**3)*N+1)] for _ in range(N+1)]
+
+dp[0][0] = 0
 
 for n in range(N):
-  if n == 0:
-    dp[wv[n][0]] = wv[n][1]
-  else:
-    dp_copy = dp.copy()
-    dp[wv[n][0]] = wv[n][1]
-    for w, v in dp_copy.items():
-      if w + wv[n][0] <= W:
-        dp[wv[n][0] + w] = max(dp[wv[n][0] + w], dp[w] + wv[n][1])
+  for v in range(10**3*N+1):
+    if v-wv[n][1] >= 0:
+      dp[n+1][v] = min(dp[n][v], dp[n][v-wv[n][1]] + wv[n][0])
+    dp[n+1][v] = min(dp[n+1][v], dp[n][v])
+    
+res = 0
+for i in range(len(dp[N])):
+  if dp[N][i] <= W:
+    res = i
 
-print(max(dp.values()))
+print(res)
