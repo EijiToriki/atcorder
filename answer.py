@@ -1,27 +1,19 @@
-s = input()
-t = input()
+import sys
 
-dp = [[0 for _ in range(3100)] for _ in range(3100)]
+N, M, T = map(int, input().split())
+A = list(map(int, input().split()))
+xy = [list(map(int, input().split())) for _ in range(M)]
 
-for i in range(len(s)):
-  for j in range(len(t)):
-    if s[i] == t[j]:
-      dp[i+1][j+1] = max(dp[i+1][j+1], dp[i][j]+1)
-    dp[i+1][j+1] = max(dp[i+1][j+1], dp[i+1][j])
-    dp[i+1][j+1] = max(dp[i+1][j+1], dp[i][j+1])
+xy_cnt = 0
+for i in range(N-1):
+  T -= A[i]
+  if T <= 0:
+    print('No')
+    sys.exit()
 
-ans = ""
-i = len(s)
-j = len(t)
+  if xy_cnt < len(xy):
+    if i+1 == xy[xy_cnt][0] - 1:
+      T += xy[xy_cnt][1]
+      xy_cnt += 1
 
-while i > 0 and j > 0:
-  if dp[i][j] == dp[i-1][j]:
-    i -= 1
-  elif dp[i][j] == dp[i][j-1]:
-    j -= 1
-  else:
-    ans = t[j-1] + ans
-    i -= 1
-    j -= 1
-
-print(ans)
+print('Yes')  
