@@ -1,19 +1,32 @@
 import sys
 
-N, M, T = map(int, input().split())
-A = list(map(int, input().split()))
-xy = [list(map(int, input().split())) for _ in range(M)]
+H, W = map(int, input().split())
+G = [input() for _ in range(H)]
 
-xy_cnt = 0
-for i in range(N-1):
-  T -= A[i]
-  if T <= 0:
-    print('No')
+point = [0,0]
+visit_point = [[False for _ in range(W)] for _ in range(H)]
+
+while True:
+  # 終了条件
+  if visit_point[point[0]][point[1]] == True:
+    print(-1)
     sys.exit()
 
-  if xy_cnt < len(xy):
-    if i+1 == xy[xy_cnt][0] - 1:
-      T += xy[xy_cnt][1]
-      xy_cnt += 1
+  # 移動
+  visit_point[point[0]][point[1]] = True
+  if G[point[0]][point[1]] == 'U' and point[0] != 0:
+    point[0] -= 1
+  elif G[point[0]][point[1]] == 'D' and point[0] != H-1:
+    point[0] += 1
+  elif G[point[0]][point[1]] == 'L' and point[1] != 0:
+    point[1] -= 1
+  elif G[point[0]][point[1]] == 'R' and point[1] != W-1:
+    point[1] += 1
+  else:
+    break
+  
+# 添え字で考えていたため，最後に1を加算する
+point[0] += 1
+point[1] += 1
 
-print('Yes')  
+print(*point)
