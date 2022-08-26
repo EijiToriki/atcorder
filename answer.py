@@ -1,32 +1,42 @@
-import sys
+N, M = map(int, input().split())
+G = [list(map(int, input().split())) for _ in range(M)]
 
-H, W = map(int, input().split())
-G = [input() for _ in range(H)]
+path = []
+for i in range(N):
+  buf = []
+  for j in range(M):
+    if i == G[j][0]-1:
+      buf.append(G[j][1]-1)
+  path.append(buf)
 
-point = [0,0]
-visit_point = [[False for _ in range(W)] for _ in range(H)]
 
-while True:
-  # 終了条件
-  if visit_point[point[0]][point[1]] == True:
-    print(-1)
-    sys.exit()
+d = [0]*(N+1) # 最初に発見した時刻
+f = [0]*(N+1) # 隣接リストを調べ終えた時刻
 
-  # 移動
-  visit_point[point[0]][point[1]] = True
-  if G[point[0]][point[1]] == 'U' and point[0] != 0:
-    point[0] -= 1
-  elif G[point[0]][point[1]] == 'D' and point[0] != H-1:
-    point[0] += 1
-  elif G[point[0]][point[1]] == 'L' and point[1] != 0:
-    point[1] -= 1
-  elif G[point[0]][point[1]] == 'R' and point[1] != W-1:
-    point[1] += 1
-  else:
-    break
-  
-# 添え字で考えていたため，最後に1を加算する
-point[0] += 1
-point[1] += 1
+TIME = 0
 
-print(*point)
+def dfs(p, d, f):
+   global TIME
+
+   # ここに来訪時の処理を書く
+   TIME += 1
+   d[p] = TIME # 時刻の記録
+   
+   for nxt in path[p]: #繋がってる点の内 
+       if d[nxt] == 0: # 未探索の(発見時刻が初期値のままの場合)
+           dfs(nxt, d, f) # 先に進む
+   
+   # ここに帰る時の処理を書く
+   TIME += 1
+   f[p] = TIME # 繋がってる全ての点を探索し終えたらその点でやることは終わり
+   
+   return     
+   
+for start in range(N):
+   if d[start] == 0: # 未探索の点があれば
+       dfs(start, d, f) # dfs開始
+
+for i in range(1, N+1):
+   print(i, d[i], f[i])
+
+
