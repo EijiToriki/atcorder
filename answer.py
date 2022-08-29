@@ -1,23 +1,48 @@
-from math import sqrt, acos, degrees, isclose
- 
-A  = list(map(int, input().split()))
-B  = list(map(int, input().split()))
-C  = list(map(int, input().split()))
-D  = list(map(int, input().split()))
- 
-def two_vector_angle(a, b):
-  bunshi = a[0]*b[0] + a[1]*b[1]
-  bunbo = sqrt(a[0]**2+a[1]**2) * sqrt(b[0]**2+b[1]**2)
-  return degrees(acos(bunshi / bunbo)) 
- 
-kakuA = two_vector_angle([B[0]-A[0], B[1]-A[1]], [D[0]-A[0], D[1]-A[1]])
-kakuB = two_vector_angle([C[0]-B[0], C[1]-B[1]], [A[0]-B[0], A[1]-B[1]])
-kakuC = two_vector_angle([D[0]-C[0], D[1]-C[1]], [B[0]-C[0], B[1]-C[1]])
-kakuD = two_vector_angle([A[0]-D[0], A[1]-D[1]], [C[0]-D[0], C[1]-D[1]])
+import sys
 
-kaku_list = [kakuA, kakuB, kakuC, kakuD]
+def is_ok(mid, ok, eq):
+    if S[mid] - S[ok] == eq:
+        return True
+    else:
+        return False
 
-if isclose(sum(kaku_list), 360.0):
-  print('Yes')
-else:
-  print('No')
+def binary_search(ok, ng, eq):
+    while ng - ok > 1:
+        mid = (ok + ng) // 2
+        if is_ok(mid, ok, eq):
+            ok = mid
+        else:
+            ng = mid
+    return ok
+
+def get_index(x, eq):
+  result = -1
+  for i in range(x, N+1):
+    idx = binary_search(i,N,eq)
+    if S[idx] - S[i] == eq:
+      result = idx
+      break
+
+  if result == -1:
+    print('No')
+    sys.exit()
+  else:
+    return result
+
+N, P, Q, R = map(int, input().split())
+A = list(map(int, input().split()))
+
+S = [0 for _ in range(N+1)]
+for i in range(N):
+  S[i+1] = S[i] + A[i]
+
+x = 0
+y = get_index(x, P)
+z = get_index(y, Q)
+w = get_index(z, R)
+
+print('Yes')
+
+
+
+
