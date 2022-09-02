@@ -130,23 +130,3 @@ class SortedSet(Generic[T]):
         return ans
  
 ################################
- 
-n,k=map(int,input().split())
-ans=[-1]*n
-from collections import defaultdict
-yama=defaultdict(list)
-s=SortedSet()
- 
-for i,x in enumerate(map(int,input().split())):
-  key=s.ge(x)
-  if key is not None:
-    yama[x]=yama.pop(key)
-    s.discard(key)
-  yama[x].append(x)
-  s.add(x)
-  if len(yama[x])==k:
-    for y in yama.pop(x):
-      ans[y-1]=i+1
-    s.discard(x)
-
-print(*ans)
