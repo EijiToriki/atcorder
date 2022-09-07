@@ -1,15 +1,16 @@
-N, M = map(int, input().split())
-A = [0] + list(map(int, input().split()))
+import bisect
 
-dp = [[-float('INF')]*(N+1) for _ in range(M+1)]
+N, Q = map(int, input().split())
+A = list(map(int, input().split()))
 
-dp[1][1] = A[1]
-for i in range(2, N-M+2):
-    dp[1][i] = max(dp[1][i-1], A[i])
+A = sorted(A)
+S = [0] * (N+1)
 
-for i in range(2, M+1):
-    for j in range(i, N-M+i+1):
-        val = dp[i-1][j-1] + i*A[j]
-        dp[i][j] = max(val, dp[i][j-1])
+for i in range(N):
+    S[i+1] = S[i] + A[i]
 
-print(max(dp[M]))
+for i in range(Q):
+    x = int(input())
+    mark = bisect.bisect_left(A, x)
+    ans = x*mark - S[mark] + (S[N] - S[mark]) - x*(N-mark)
+    print(ans)
