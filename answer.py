@@ -1,36 +1,22 @@
-from bisect import bisect_right
+import math
 
+N, A, B = map(int, input().split())
 
-def factorization(n):
-    arr = []
-    temp = n
-    for i in range(2, int(-(-n**0.5//1))+1):
-        if temp%i==0:
-            cnt=0
-            while temp%i==0:
-                cnt+=1
-                temp //= i
-            arr.append([i, cnt])
+sumN = N*(N+1) // 2
 
-    if temp!=1:
-        arr.append([temp, 1])
+Acnt = N // A
+Acnt = Acnt*(Acnt+1) // 2
+sumA = A * Acnt
 
-    if arr==[]:
-        arr.append([n, 1])
+Bcnt = N // B
+Bcnt = Bcnt*(Bcnt+1) // 2
+sumB = B * Bcnt
 
-    return arr
+lcmAB = (A*B) // math.gcd(A, B)
+lcm_cnt = N // lcmAB
+lcm_cnt = lcm_cnt*(lcm_cnt+1) // 2
+sum_lcm = lcmAB * lcm_cnt
 
-N = int(input())
-S = [i*i for i in range(1, N+1)]
-
-ans = 0
-for i in range(1, N+1):
-    factors = factorization(i)
-    j = 1
-    for factor in factors:
-        if factor[1] % 2 == 1:
-            j *= factor[0]
-    tansaku =  bisect_right(S, N//j)
-    ans += tansaku
+ans = sumN - (sumA + sumB) + sum_lcm
 
 print(ans)
