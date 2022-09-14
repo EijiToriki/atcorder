@@ -1,16 +1,21 @@
-N = int(input())
-A = list(map(int, input().split()))
+from math import ceil, log2
 
-maxA = max(A)
-cnt = [0]*(maxA+1)
-for i in range(N):
-  cnt[A[i]] += 1
+W = int(input())
 
-for i in range(maxA):
-  cnt[i+1] += cnt[i]
+ans = set()
 
-ans = 0
-for j in range(N):
-  ans += cnt[A[j]-1]*(N-cnt[A[j]])
+wlog = ceil(log2(W))
+for i in range(wlog):
+  ans.add(2**i)
 
-print(ans)
+
+for i in range(1, W+1):
+  bitN = bin(i)[2:]
+  if bitN.count('1') > 3:
+    addValue = 0
+    for j in range(len(bitN[2:])):
+      addValue += 2**(len(bitN[2:])-j-1)
+    ans.add(addValue)
+
+print(len(ans))
+print(*ans)
