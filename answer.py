@@ -1,21 +1,37 @@
-from math import ceil, log2
+def is_ok():
+    koma = N-1
+    T = int(input())
+    rT = T - koma
+    if T > rT:
+        return True
+    else:
+        return False
 
-W = int(input())
+def binary_search_AB(ok, ng):
+    while ng - ok > 1:
+        mid = (ok + ng) // 2
+        print(f'? {ok} {mid} {1} {N}')
+        if is_ok():
+            ok = mid + 1
+        else:
+            ng = mid - 1
+    return ok
 
-ans = set()
+def binary_search_AB(ok, ng):
+    while ng - ok > 1:
+        mid = (ok + ng) // 2
+        print(f'? {1} {N} {ok} {mid}')
+        if is_ok():
+            ok = mid + 1
+        else:
+            ng = mid - 1
+    return ok
 
-wlog = ceil(log2(W))
-for i in range(wlog):
-  ans.add(2**i)
 
+N = int(input())
+koma = N-1
+A, B, C, D = 1, N, 1, N
 
-for i in range(1, W+1):
-  bitN = bin(i)[2:]
-  if bitN.count('1') > 3:
-    addValue = 0
-    for j in range(len(bitN[2:])):
-      addValue += 2**(len(bitN[2:])-j-1)
-    ans.add(addValue)
-
-print(len(ans))
-print(*ans)
+i = binary_search_AB(A,B)
+j = binary_search_AB(C,D)
+print(f'! i j')
