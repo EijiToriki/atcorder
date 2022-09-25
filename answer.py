@@ -1,26 +1,23 @@
-Q = int(input())
+from collections import deque
 
-num_list = []
-mark = 0
-for _ in range(Q):
-    query = list(map(int, input().split()))
-    if query[0] == 1:
-        num_list.append([query[1], query[2]])
-    else:
-        c = query[1]
-        ans = 0
-        for i in range(mark, len(num_list)):
-            if c > num_list[i][1]:
-                c = c - num_list[i][1]
-                ans += num_list[i][0] * num_list[i][1]
-                mark += 1
-            elif c < num_list[i][1]:
-                num_list[i][1] -= c
-                ans += num_list[i][0] * c
-                print(ans)
-                break
-            else:
-                ans += num_list[i][0] * num_list[i][1]
-                mark += 1
-                print(ans)
-                break
+N, X, Y = map(int, input().split())
+G = [[] for _ in range(N+1)]
+for _ in range(N-1):
+    u, v = map(int, input().split())
+    G[u].append(v)
+    G[v].append(u)
+
+ans = [X]
+
+def dfs(a, b):
+    if a == Y:
+        print(*ans)
+        exit()
+    for to in G[a]:
+        if to == b:
+            continue
+        ans.append(to)
+        dfs(to, a)
+        ans.pop()
+
+dfs(X, False)
