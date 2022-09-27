@@ -1,31 +1,13 @@
 N, K = map(int, input().split())
 A = list(map(int, input().split()))
 
-cnt = 0
-takahashi = 0
-aoki = 0
+DP = [0] * (N+1)
 
-idx = len(A)-1
-
-while True:
-    point = A[idx]
-    if cnt % 2 == 0:
-        if N - point >= 0:
-            takahashi += point
-            N = N - point
-            cnt += 1
+for n in range(1, N+1):
+    for i in range(K):
+        if A[i] <= n:
+            DP[n] = max(DP[n], n-DP[n-A[i]])
         else:
-            idx = idx - 1
-    else:
-        if N - point >= 0:
-            aoki += point
-            N = N - point
-            cnt += 1
-        else:
-            idx = idx - 1
+            break
 
-    if N == 0:
-        break
-
-print(takahashi)
-print(aoki)
+print(DP[N])
