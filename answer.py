@@ -1,27 +1,33 @@
-N = input()
-keta = len(N)
+from bisect import bisect_left, bisect_right
 
-ans_option = []
-for i in range(2**keta):
-    r = []
-    l = []
-    for j in range(keta):
-        if((i >> j) & 1):
-            r.append(int(N[j]))
-        else:
-            l.append(int(N[j]))
-    
-    if len(r) != 0 and len(l) != 0:
-        r = sorted(r)
-        r_num = 0
-        for k in range(len(r)):
-            r_num += r[k] * (10 ** k)
-        
-        l = sorted(l)
-        l_num = 0
-        for k in range(len(l)):
-            l_num += l[k] * (10 ** k)
-        
-        ans_option.append(r_num*l_num)
 
-print(max(ans_option))
+N = int(input())
+
+X_list = []
+for i in range(10**2+1):
+    X_list.append((2*i)*(2*(i**2)))
+
+if N in X_list:
+    start_idx = bisect_left(X_list, N)
+else:
+    start_idx = bisect_left(X_list, N) - 1
+print(start_idx)
+
+ans_candidate_list = []
+for i in range(start_idx+1):
+    val = (2*start_idx)*(i**2 + (2*start_idx-i)**2)
+    ans_candidate_list.append(val)
+
+for i in range(2*start_idx):
+    val = (2*start_idx+1)*(i**2 + (2*start_idx-i+1)**2)
+    ans_candidate_list.append(val)
+
+ans_candidate_list = sorted(ans_candidate_list)
+
+if N in ans_candidate_list:
+    ans_idx = bisect_left(ans_candidate_list, N) - 1
+else:
+    ans_idx = bisect_left(ans_candidate_list, N) 
+
+print(ans_candidate_list)
+print(ans_candidate_list[ans_idx])
