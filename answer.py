@@ -6,34 +6,29 @@ for i in range(N):
     B.append(b)
 
 dp = [[0 for _ in range(S+1)] for _ in range(N+1)]
-card = [['' for _ in range(S+1)] for _ in range(N+1)]
+dp[0][0] = 1
 
-for n in range(N):
-    for s in range(1, S+1):
-        card[n+1][s] = card[n][s]
+for i in range(N):
+    for s in range(S+1):
+        if dp[i][s] == 1:
+            if s + A[i] <= S:
+                dp[i+1][s + A[i]] = 1
+            if s + B[i] <= S:
+                dp[i+1][s + B[i]] = 1
 
-    for s in range(1, S+1):
-        if dp[n][s] + A[n] <= S:
-            dp[n+1][dp[n][s] + A[n]] = dp[n][s] + A[n]
-            if len(card[n+1][dp[n][s] + A[n]]) <= n:
-                card[n+1][dp[n][s] + A[n]] = card[n][s] + 'H'
-                
-        if dp[n][s] + B[n] <= S:
-            dp[n+1][dp[n][s] + B[n]] = dp[n][s] + B[n]
-            if len(card[n+1][dp[n][s] + B[n]]) <= n:
-                card[n+1][dp[n][s] + B[n]] = card[n][s] + 'T'
-
-        max_val = max(dp[n][s], dp[n+1][s-1], dp[n+1][s])
-
-        if max_val == dp[n][s]:
-            card[n+1][s] = card[n][s]
-        elif max_val == dp[n+1][s-1]:
-            card[n+1][s] = card[n+1][s-1]
-
-        dp[n+1][s] = max_val
-
-if len(card[N][S]) != N:
-    print("No")
+if dp[N][S] == 0:
+    print('No')
 else:
-    print("Yes")
-    print(card[N][S])
+    ans = ""
+    now = S
+    for i in range(N-1, -1, -1):
+        if dp[i][now-A[i]] == 1:
+            now = now - A[i]
+            ans += 'H'
+        elif dp[i][now-B[i]] == 1:
+            now = now - B[i]
+            ans += 'T'
+    print('Yes')
+    print(''.join(list(reversed(ans))))
+
+
