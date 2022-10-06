@@ -1,25 +1,44 @@
-N, X = map(int, input().split())
 S = input()
+Q = int(input())
 
-ans = X
-over_cnt = 0
+for _ in range(Q):
+    t, k = map(int, input().split())
+    sLen = len(S)
 
-for i in range(N):
-    if ans <= 10**18 and over_cnt == 0:
-        if S[i] == 'U':
-            ans = ans // 2
-        if S[i] == 'L':
-            ans = ans * 2
-        if S[i] == 'R':
-            ans = ans * 2 + 1
-        if ans > 10**18:
-            over_cnt += 1
+    if t == 0:
+        print(S[k-1])
     else:
-        if S[i] == 'U':
-            over_cnt -= 1
-        else:
-            over_cnt += 1
-        if over_cnt == 0:
-            ans = ans // 2
+        move_cnt = 0
+        while True:
+            if  sLen > k-1:
+                break
+            else:
+                sLen *= 2
+                move_cnt += 1
+        
+        one_len = 2 ** move_cnt
+        base_index = (k-1) // one_len
+        ans_index = (k-1) % one_len
 
-print(ans)
+        ans_index = bin(ans_index)[2:]
+
+        ans = S[base_index]
+        for idx in ans_index:
+            if idx == '0':
+                if ans == 'A':
+                    ans = 'B'
+                elif ans == 'B':
+                    ans = 'C'
+                elif ans == 'C':
+                    ans = 'A'
+            else:
+                if ans == 'A':
+                    ans = 'C'
+                elif ans == 'B':
+                    ans = 'A'
+                elif ans == 'C':
+                    ans = 'B'
+        
+        print(ans)
+    
+
