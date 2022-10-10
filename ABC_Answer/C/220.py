@@ -1,4 +1,8 @@
-def main(N, A, X):    
+def main():
+    N = int(input())
+    A = list(map(int, input().split()))
+    X = int(input())
+
     A_sum = sum(A)
     ans = (X // A_sum) * N
     val = (X // A_sum) * A_sum
@@ -12,7 +16,4 @@ def main(N, A, X):
 
 
 if __name__ == "__main__":
-    N = int(input())
-    A = list(map(int, input().split()))
-    X = int(input())
-    main(N, A, X)
+    main()
