@@ -1,9 +1,3 @@
-import sys
-def input(): return sys.stdin.readline().rstrip()
-def divceil(n, k): return 1+(n-1)//k  # n/kの切り上げを返す
-def yn(hantei, yes='Yes', no='No'): print(yes if hantei else no)
- 
-# 改造https://ikatakos.com/pot/programming_algorithm/data_structure/trie
 class BinaryTrie:
  
     def __init__(self, bit_depth):
@@ -188,30 +182,3 @@ class BinaryTrie:
             node = node[i]
             b >>= 1
         return True
- 
-def main():
-    bi=BinaryTrie(60)
-    count=0
-    for _ in range(int(input())):
-        query=list(map(int, input().split()))
-        if query[0]==1:
-            bi.insert(query[1])
-            count+=1
-        elif query[0]==2:
-            num=bi.less_x(query[1]+1)
-            if num < query[2]:
-                print(-1)
-            else:
-                print(bi.get_kth_min(num-query[2]+1))
-        else:
-            num=bi.less_x(query[1])
-            if num + query[2] > count:
-                print(-1)
-            else:
-                print(bi.get_kth_min(num+query[2]))
- 
- 
- 
- 
-if __name__ == '__main__':
-    main()
