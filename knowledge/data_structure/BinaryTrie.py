@@ -182,3 +182,29 @@ class BinaryTrie:
             node = node[i]
             b >>= 1
         return True
+
+
+if __name__ == '__main__':
+    # コンストラクタに2進での桁数を渡す
+    bt = BinaryTrie(60)
+
+    # 値の挿入
+    bt.insert(10)
+    bt.insert(20)
+    bt.insert(30)
+    bt.insert(100)
+    bt.insert(90)
+    bt.insert(80)
+    bt.insert(70)
+    bt.insert(40)
+    bt.insert(50)
+    bt.insert(60)
+
+    # x 未満の値の個数
+    print(bt.less_x(50))        # 4
+    print(bt.less_x(101))       # 10
+
+    # k 番目に小さい値を取得
+    print(bt.get_kth_min(5))    # 50
+    print(bt.get_kth_min(-2))    # 0 と負の数は，最小値 -> 10
+    print(bt.get_kth_min(1000))  # 要素の数超過は，最大値 -> 100
