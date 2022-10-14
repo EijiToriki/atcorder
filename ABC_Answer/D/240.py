@@ -1,21 +1,27 @@
-def main(N,A):
-    ans = 0
-    idx = 0
-    prev = -1
-    prev_cnt = 1
+from collections import deque
 
-    while idx < N:
-        ans += 1
-        if A[idx] == prev:
-            prev_cnt += 1
-            if prev_cnt == prev:
-                ans = ans - prev
+def main(N,A):
+    stack = deque([])
+    ans = 0
+
+    for i in range(N):
+        if len(stack) == 0:
+            stack.append([A[i], 1])
+            ans = 1
         else:
-            prev_cnt = 1
-            prev = A[idx]
-            
+            prev = stack.pop()
+            if prev[0] == A[i]:
+                if prev[1] + 1 < A[i]:
+                    stack.append([prev[0], prev[1]+1])
+                    ans += 1
+                else:
+                    ans -= (A[i] - 1)
+            else:
+                stack.append(prev)
+                stack.append([A[i], 1])
+                ans += 1
+    
         print(ans)
-        idx += 1
  
  
 if __name__ == '__main__':
