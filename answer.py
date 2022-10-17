@@ -1,12 +1,21 @@
-## Qiita 参照
-def main():
-    A, S = map(int, input().split())
-    T = S - 2 * A
-    if T < 0:
-        return False
-    return T & A == 0
- 
-if __name__ == '__main__':
-    T = int(input())
-    for _ in range(T):
-        print("Yes" if main() else "No")
+N, X, Y = map(int, input().split())
+G = [[] for _ in range(N+1)]
+for _ in range(N-1):
+    u, v = map(int, input().split())
+    G[u].append(v)
+    G[v].append(u)
+
+ans = [X]
+
+def dfs(a, b):
+    if a == Y:
+        print(*ans)
+        exit()
+    for to in G[a]:
+        if to == b:
+            continue
+        ans.append(to)
+        dfs(to, a)
+        ans.pop()
+
+dfs(X, False)
