@@ -1,21 +1,28 @@
-N, X, Y = map(int, input().split())
-G = [[] for _ in range(N+1)]
-for _ in range(N-1):
-    u, v = map(int, input().split())
-    G[u].append(v)
-    G[v].append(u)
+n = int(input())
+G = [[] for _ in range(n+1)]
+for _ in range(n):
+    u, k, *v = map(int, input().split())
+    for node in v:
+        G[u].append(node)
 
-ans = [X]
+d = [1] * (n+1)
+f = [1] * (n+1)
 
-def dfs(a, b):
-    if a == Y:
-        print(*ans)
-        exit()
+
+def dfs(a, b, goal):
+    if a == goal:
+        return None
     for to in G[a]:
         if to == b:
             continue
-        ans.append(to)
-        dfs(to, a)
-        ans.pop()
+        d[goal] = d[goal] + 1
+        print(a,b,d[goal])
+        dfs(to, a, goal)
 
-dfs(X, False)
+dfs(1, False, 2)
+
+# for i in range(1, n+1):
+#     dfs(1, False, i)
+#     print(d)
+
+print(d)

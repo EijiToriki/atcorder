@@ -1,5 +1,3 @@
-from collections import deque
-
 N, X, Y = map(int, input().split())
 G = [[] for _ in range(N+1)]
 for _ in range(N-1):
