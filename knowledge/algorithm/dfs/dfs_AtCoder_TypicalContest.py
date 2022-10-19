@@ -1,3 +1,5 @@
+# pypyではなく，pythonで実行しないと色々バグる
+
 import sys
 sys.setrecursionlimit(10**6)
 
