@@ -1,33 +1,30 @@
-import sys
-sys.setrecursionlimit(10**6)
+from collections import deque
 
 a, N = map(int, input().split())
-visited = set()
-visited.add(N)
 
-def f(n, d):
-    next_list = []
-    if n%a == 0:
-        if n // a not in visited:
-            next_list.append([n//a, d+1])
-            visited.add(n//a)
-            if n // a == 1:
-                print(d + 1)
-                exit()
-                
+M = 1
+while M <= N:
+  M *= 10
 
-    if n%10 != 0:
-        for i in range(1, len(str(n))):
-            new_num = str(n)[-i:] + str(n)[:len(str(n))-i]
-            if int(new_num) not in visited:
-                next_list.append([int(new_num), d+i])
-                visited.add(new_num)
+d = [-1] * M
+Q = deque()
+d[1] = 0
+Q.append(1)
 
+while len(Q):
+  c = Q.popleft()
+  dc = d[c]
 
-    for next in next_list:
-        f(next[0], next[1])
+  op1 = a * c
+  if op1 < M and d[op1] == -1:
+    d[op1] = dc + 1
+    Q.append(op1)
 
+  if c >= 10 and c % 10 != 0:
+    s = str(c)
+    op2 = int(s[-1] + s[:-1])
+    if op2 < M and d[op2] == -1:
+      d[op2] = dc + 1
+      Q.append(op2)
 
-
-
-f(N, 0)
+print(d[N])
