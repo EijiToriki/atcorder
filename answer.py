@@ -1,30 +1,37 @@
-from collections import deque
+import heapq
 
-a, N = map(int, input().split())
+N, K = map(int, input().split())
+P = list(map(int, input().split()))
 
-M = 1
-while M <= N:
-  M *= 10
+que = P[0:K]
+print(min(que))
+heapq.heapify(que)
 
-d = [-1] * M
-Q = deque()
-d[1] = 0
-Q.append(1)
+for i in range(K, N):
+  minima = heapq.heappop(que) ## 最小値の取り出し
+  minima = max(minima, P[i])
+  heapq.heappush(que, minima)
+  ans = heapq.heappop(que)
+  print(ans)
+  heapq.heappush(que, ans)
 
-while len(Q):
-  c = Q.popleft()
-  dc = d[c]
 
-  op1 = a * c
-  if op1 < M and d[op1] == -1:
-    d[op1] = dc + 1
-    Q.append(op1)
+# p_set = set()
+# min = 10**6
+# for i in range(K):
+#   if min > P[i]:
+#     min = P[i]
+#   p_set.add(P[i])
 
-  if c >= 10 and c % 10 != 0:
-    s = str(c)
-    op2 = int(s[-1] + s[:-1])
-    if op2 < M and d[op2] == -1:
-      d[op2] = dc + 1
-      Q.append(op2)
+# ans = min
+# print(ans)
 
-print(d[N])
+# for i in range(K, N):
+#   if P[i] > ans:
+#     while True:
+#       ans += 1
+#       if ans in p_set:
+#         break
+  
+#   p_set.add(P[i])
+#   print(ans)  
