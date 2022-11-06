@@ -1,8 +1,27 @@
+from functools import reduce
+from math import gcd
+
+def more_gcd(*numbers):
+    return reduce(gcd, numbers)
+
 N = int(input())
-P = list(map(int, input().split()))
-Q = [0] * (N)
+A = list(map(int, input().split()))
 
-for i, p in enumerate(P):
-  Q[p-1] = i + 1
+target = more_gcd(*A)
 
-print(*Q)
+
+ans = 0
+for a in A:
+  while True:
+    if a == target:
+      break
+    if a % 3 == 0:
+      a = a // 3
+    elif a % 2 == 0:
+      a = a // 2
+    else:
+      print(-1)
+      exit()
+    ans += 1
+
+print(ans)
