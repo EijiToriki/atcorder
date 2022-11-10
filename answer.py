@@ -1,19 +1,24 @@
-S = input()
-K = int(input())
+N, K = map(int, input().split())
+S = []
+for _ in range(N):
+  S.append(int(input()))
 
-cnt = [0] * (len(S)+1)
-for i in range(len(S)):
-  if S[i] == '.':
-    cnt[i+1] = cnt[i] + 1
-  else:
-    cnt[i+1] = cnt[i]
-
+if 0 in S:
+  print(N)
+  exit()
 
 ans = 0
 r = 0
-for l in range(len(S)):
-  while r <= len(S)-1 and cnt[r+1]-cnt[l] <= K:
+multi = 1
+for l in range(N):
+  while r < N and multi * S[r] <= K:
+    multi *= S[r]
     r += 1
-  ans = max(ans, r-l)
+  
+  if l == r:
+    r += 1
+  else:
+    multi //= S[l]
+    ans = max(ans, r-l)
 
 print(ans)
