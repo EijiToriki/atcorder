@@ -1,30 +1,28 @@
-N = int(input())
-H, S = [], []
+N, A, B = map(int, input().split())
+H = []
 for _ in range(N):
-  h, s = map(int, input().split())
-  H.append(h)
-  S.append(s)
+  H.append(int(input()))
 
+A -= B
 left = 0
-right = 10**14
+right = 10**10
 
 while right-left > 1:
   mid = (left + right) // 2
-  ok = True
   
-  t = [0] * N
+  life_B = []     # mid回爆発させた後に生き残っている魔物のhp
   for i in range(N):
-    if mid < H[i]:
-      ok = False
-    else:
-      t[i] = (mid - H[i]) // S[i]
+    if H[i] - mid * B > 0:
+      life_B.append(H[i] - mid * B)
     
-  t = sorted(t)
-  for i in range(N):
-    if t[i] < i:
-      ok = False
+  cnt_A = 0
+  for i in range(len(life_B)):
+    if life_B[i] % A == 0:
+      cnt_A += (life_B[i] // A)
+    else:
+      cnt_A += (life_B[i] // A + 1)
   
-  if ok:
+  if cnt_A <= mid:
     right = mid
   else:
     left = mid
