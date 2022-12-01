@@ -1,15 +1,20 @@
-from math import sqrt
+import sys
+sys.setrecursionlimit(10**6)
 
-def f(g):
-  try:
-    return B*(g-1) + (A/sqrt(g))
-  except ZeroDivisionError:
-    return float('INF')
-  except ValueError:
-    return float('INF')
+N = int(input())
+A = list((map(int, input().split())))
+ans = [0] * 10
+depth = 1
 
-A, B = map(int, input().split())
-g = int((A / (2*B)) ** (2/3))
+def f(a,b,d):
+  if d == N-1:
+    ans[(a+b)%10] += 1
+    ans[(a*b)%10] += 1
+    return ans
+  else:
+    F = (a+b)%10
+    G = (a*b)%10
+    d += 1
+    return f(F, A[d], d), f(G, A[d], d)
 
-ans = min(f(g), f(g+1), f(g-1))
-print(ans)
+f()
