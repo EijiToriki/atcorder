@@ -1,12 +1,14 @@
-N = int(input())
-S = list(input())
+N, T = map(int, input().split())
+A = list(map(int, input().split()))
+sumA = sum(A)
 
-double_cort_cnt = 0
-for i in range(N):
-  if S[i] == ',':
-    if double_cort_cnt % 2 == 0:
-      S[i] = "."
-  if S[i] == '"':
-    double_cort_cnt += 1
+repeat_num = T // sumA
+T = T - (sumA * repeat_num)
 
-print("".join(S))
+for i, a in enumerate(A):
+  T = T - a
+  if T < 0:
+    ans = [i + 1, a + T]
+    break
+
+print(*ans)
