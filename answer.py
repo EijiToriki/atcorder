@@ -1,54 +1,28 @@
-import sys
+MOD = 10**9 + 7
 
+H, W = map(int, input().split())
+A = []
+for _ in range(H):
+    row = input()
+    A.append(row)
 
-sys.setrecursionlimit(10 ** 6)
+dp = [[0 for _ in range(W)] for _ in range(H)]
+dp[0][0] = 1
+for i in range(H):
+    for j in range(W):
+        if A[i][j] == "#":
+            continue
+        try:
+            if A[i][j+1] == '.':
+                dp[i][j+1] += dp[i][j]
+                dp[i][j+1] %= MOD
+        except IndexError:  # 場外に行ってしまうのを防ぐ
+            pass
+        try:
+            if A[i+1][j] == ".":
+                dp[i+1][j] += dp[i][j]
+                dp[i+1][j] %= MOD
+        except IndexError:  # 場外に行ってしまうのを防ぐ
+            pass
 
-N, M = map(int, input().split())
-G = [[] for _ in range(N)]
-
-for _ in range(M):
-    u, v = map(int, input().split())
-    u, v = u - 1, v - 1
-    G[u].append(v)
-    G[v].append(u)
-
-colors = [-1] * N
-done = [False] * N
-groups = {}
-
-
-def dfs(v, color, root):
-    colors[v] = color
-    done[v] = True
-    groups[root][color] += 1
-    for to in G[v]:
-        if colors[to] == color:
-            return False
-        if colors[to] == -1 and not dfs(to, color ^ 1, root):
-            return False
-    return True
-
-
-for i in range(N):
-    if done[i]:
-        continue
-    groups[i] = [0, 0]  # num_black, num_white
-    is_bipartite = dfs(i, 0, i)
-    if not is_bipartite:
-        print(0)
-        exit()
-
-# Group 内
-group_in = 0
-for num_black, num_white in groups.values():
-    group_in += num_black * num_white
-group_in -= M
-
-# Group 外
-group_out = 0
-for num_black, num_white in groups.values():
-    v = num_black + num_white
-    group_out += v * (N - v)
-
-ans = group_in + group_out // 2
-print(ans)
+print(dp[H-1][W-1])
