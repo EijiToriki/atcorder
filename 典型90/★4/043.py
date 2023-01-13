@@ -1,5 +1,6 @@
 # とりあえず写経した
 # ダイクストラ法 → python だと TLE するっぽい
+# テストケース24のみTLEしたため諦めた
 from collections import deque
 import sys
 from sys import stdin
