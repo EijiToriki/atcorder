@@ -1,3 +1,5 @@
+## 模解のコードを C++ から python で書いた
+
 from collections import defaultdict
 
 def maxmum_same(R):
