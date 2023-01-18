@@ -1,7 +1,5 @@
-6
-aaa bbb
-yyy zzz
-ccc ddd
-xxx yyy
-bbb ccc
-eee ccc
+4 4
+....
+#...
+....
+...#
