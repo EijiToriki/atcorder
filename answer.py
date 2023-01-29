@@ -1,20 +1,17 @@
-N = int(input())
+N, K = map(int, input().split())
+A = list(map(int, input().split()))
 
-def f(x):
-  if x**3 + x > N:
-    return True
-  else:
-    return False
+cumsum = [0] * (N+1)
+for i in range(1, N+1):
+  cumsum[i] = cumsum[i-1] + A[i-1]
 
-l = 0.0
-r = 50.0 * (10**6)
-
-while l < r:
-  mid = ((l+r) / (10**6)) / 2
-
-  if f(mid):
-    r = mid * (10**6) - 1
-  else:
-    l = mid * (10**6) + 1
-
-print(r / (10**6))
+ans = 0
+r = 1
+for l in range(N):
+  while r < N+1 and cumsum[r] - cumsum[l] <= K:
+    r += 1
+  r -= 1
+  
+  ans += (r-l)
+    
+print(ans)
