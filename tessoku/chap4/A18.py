@@ -15,17 +15,7 @@ for i in range(1, N+1):
             if j + A[i] < maxS:
                 dp[i][j+A[i]] = 1
 
-if dp[N][S] != 1:
-    print(-1)
-    exit()
-
-ans = []
-now = S
-for i in range(N, 0, -1):
-    if dp[i-1][now] == 0 and dp[i-1][now-A[i]] == 1:
-        now = now - A[i]
-        ans.append(i)
-
-ans.reverse()
-print(len(ans))
-print(*ans)
+if dp[N][S] == 1:
+    print('Yes')
+else:
+    print('No')
