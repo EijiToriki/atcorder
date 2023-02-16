@@ -6,7 +6,10 @@ def judge_prime_number(x):
             return False
     return True
 
-N = int(input())
-for i in range(2, N+1):
-    if judge_prime_number(i):
-        print(i)
+Q = int(input())
+for _ in range(Q):
+    x = int(input())
+    if judge_prime_number(x):
+        print('Yes')
+    else:
+        print('No')
