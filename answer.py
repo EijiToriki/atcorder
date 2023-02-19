@@ -1,25 +1,18 @@
-H, W = map(int, input().split())
-C = []
-for _ in range(H):
-    C.append(input())
+T = int(input())
 
-dp = [[0] * W for _ in range(H)]
-
-for h in range(H):
-    if C[h][0] == '.':
-        dp[h][0] = 1
+for _ in range(T):
+    N, D, K = map(int, input().split())
+    if D > N:
+        D = D % N
+    if D == 0:
+        D = 1
+    if N % 2 == 0:
+        if N >= 2 * D:
+            ans = D * (K-1) % N + (K-1) // (N // D) % N 
+            print(ans)
+        else:
+            ans = D * (K-1) % N + (K-1) // (N // (N-D)) % N 
+            print(ans)
     else:
-        break
-
-for w in range(W):
-    if C[0][w] == '.':
-        dp[0][w] = 1
-    else:
-        break
-
-for h in range(1, H):
-    for w in range(1, W):
-        if C[h][w] == '.':
-            dp[h][w] = dp[h-1][w] + dp[h][w-1]
-
-print(dp[H-1][W-1])
+        ans = D * (K-1) % N
+        print(ans)
