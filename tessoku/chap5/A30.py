@@ -1,8 +1,5 @@
-H, W = map(int, input().split())
+n, r = map(int, input().split())
 MOD = 1000000007
-
-n = H + W -2
-r = W - 1
 
 fact = [0] * (n+5)
 fact_inv = [0] * (n+5)
