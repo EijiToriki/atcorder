@@ -1,7 +1,7 @@
 N, X, Y = map(int, input().split())
 A = list(map(int, input().split()))
 
-a_max = 5
+a_max = 100005
 grundy = [0] * a_max
 for i in range(a_max):
     transit = [False, False, False]
@@ -18,7 +18,7 @@ for i in range(a_max):
 
 xor_sum = 0
 for i in range(N):
-    xor_sum = xor_sum ^ grundy[A[i] % 5]
+    xor_sum = xor_sum ^ grundy[A[i]]
 
 if xor_sum != 0:
     print('First')
