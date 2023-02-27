@@ -1,25 +1,30 @@
 N = int(input())
+AB = []
+for _ in range(N):
+    a, b = map(int, input().split())
+    AB.append([a, b])
 
-power10 = [1]
-for i in range(1, 17):
-    power10.append(power10[i-1] * 10)
+ansA = 2
+ansB = 2
+prevA = AB[0][0]
+prevB = AB[0][1]
+for i in range(1, N):
+    if prevA != AB[i][0] and prevA != AB[i][1]:
+        ansA *= 2
+    elif prevA == AB[i][0] and prevA != AB[i][1] or prevA != AB[i][0] and prevA == AB[i][1]:
+            pass
+    else:
+        ansA = 0
 
-R = [[0] * 10 for _ in range(18)]
-for i in range(15):
-    digit = (N // power10[i]) % 10
-    for j in range(10):
-        if j < digit:
-            R[i][j] = (N//power10[i+1])*power10[i] + power10[i]
-        if j == digit:
-            R[i][j] = (N//power10[i+1])*power10[i] + (N % power10[i] + 1)
-        if j > digit:
-            R[i][j] = (N//power10[i+1])*power10[i]
+    if prevB != AB[i][0] and prevB != AB[i][1]:
+        ansB *= 2
+    elif prevB == AB[i][0] and prevB != AB[i][1] or prevB != AB[i][0] and prevB == AB[i][1]:
+        pass
+    else:
+        ansB = 0
 
-ans = 0
-for i in range(15):
-    for j in range(10):
-        ans += j * R[i][j]
+    prevA = AB[i][0]
+    prevB = AB[i][1]   
 
-print(ans)
-
-
+ans = ansA + ansB
+print(ans // 2)
