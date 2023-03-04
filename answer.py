@@ -1,43 +1,31 @@
-N = int(input())
-S = input()
+from functools import lru_cache
+import sys
+sys.setrecursionlimit(10**6)
 
-grass = [1]
-Bstart = 0
-Bend = 0
-Bflag = False
+N, M = map(int, input().split())
+G = [[] for _ in range(N+1)]
 
-for i in range(N-1):
-    append_num = 0
-    if S[i] == 'A':
-        if Bflag == True:
-            Bend = i
-            Bflag = False
-            for j in range(Bend-Bstart+1):
-                if j == 0 and grass[Bstart] < Bend-Bstart+1:
-                    grass[Bstart] = Bend-Bstart+1
-                elif j == 0 and grass[Bstart] >= Bend-Bstart+1:
-                    pass
-                else:
-                    grass[Bstart + j] = Bend-Bstart+1-j
-        append_num = grass[i] + 1
-    if S[i] == 'B':
-        if Bflag == False:
-            Bstart = i
-            Bflag = True
-        append_num = grass[i] - 1
+for _ in range(M):
+    a, b = map(int, input().split())
+    G[a].append(b)
+
+ans = [0]
+
+@lru_cache(maxsize=10**6)
+def dfs(v, p, pp, d):
+    if d == 2:
+        if v not in G[pp]:
+            ans[0] += 1
+            G[pp].append(v)
+            return None
+    for next in G[v]:
+        if next == p:
+            continue
+        dfs(next, v, p, d+1)
     
-    grass.append(append_num)
+for i in range(1, N+1):
+    for j in range(1, N+1):
+        visited = [False] * (N+1)
+        dfs(j, -1, -1, 0)
 
-if Bflag == True:
-    Bend = N-1
-    Bflag = False
-    for j in range(Bend-Bstart+1):
-        if j == 0 and grass[Bstart] < Bend-Bstart+1:
-            grass[Bstart] = Bend-Bstart+1
-        elif j == 0 and grass[Bstart] >= Bend-Bstart+1:
-            pass
-        else:
-            grass[Bstart + j] = Bend-Bstart+1-j 
-
-ans = sum(grass)
-print(ans)
+print(ans[0])
