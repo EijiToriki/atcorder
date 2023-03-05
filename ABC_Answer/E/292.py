@@ -9,23 +9,25 @@ for _ in range(M):
     a, b = map(int, input().split())
     G[a].append(b)
 
-ans = [0]
+visited = [False] * (N+1)
 
-@lru_cache(maxsize=10**6)
-def dfs(v, p, pp, d):
-    if d == 2:
-        if v not in G[pp]:
-            ans[0] += 1
-            G[pp].append(v)
-            return None
+def dfs(v, p):
+    visited[v] = True
+
     for next in G[v]:
         if next == p:
             continue
-        dfs(next, v, p, d+1)
-    
-for i in range(1, N+1):
-    for j in range(1, N+1):
-        visited = [False] * (N+1)
-        dfs(j, -1, -1, 0)
+        if visited[next]:
+            continue
+        dfs(next, v)
 
-print(ans[0])
+
+ans = 0
+for i in range(1, N+1):
+    visited = [False] * (N+1)
+    dfs(i, -1)
+    ans += visited.count(True) - 1
+
+ans -= M
+
+print(ans)
