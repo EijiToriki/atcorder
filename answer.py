@@ -1,11 +1,13 @@
 from collections import defaultdict
 
-Q = int(input())
-score_dict  = defaultdict(int)
-for _ in range(Q):
-    query = input().split()
-    if query[0] == '1':
-        score_dict[query[1]] = int(query[2])
-    else:
-        print(score_dict[query[1]])
+N = int(input())
+num_dict = defaultdict(int)
+for _ in range(N):
+    a = int(input())
+    num_dict[a] += 1
 
+ans = 0
+for v in num_dict.values():
+    ans += (v * (v-1) // 2)
+
+print(ans)
