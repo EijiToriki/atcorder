@@ -139,22 +139,10 @@ for _ in range(Q):
     if query[0] == 1:
         s.add(query[1])
     elif query[0] == 2:
-        le = s.le(query[1])
-        ge = s.ge(query[1])
-
-        if le and ge:
-            if abs(le-query[1]) < abs(ge-query[1]):
-                print(abs(le-query[1]))
-            else:
-                print(abs(ge-query[1]))
-            s.add(le)
-            s.add(ge)
-        elif le:
-            print(abs(le-query[1]))
-            s.add(le)
-        elif ge:
-            print(abs(ge-query[1]))
-            s.add(ge)
+        s.discard(query[1])
+    else:
+        ans = s.ge(query[1])
+        if ans:
+            print(ans)
         else:
             print(-1)
-        
