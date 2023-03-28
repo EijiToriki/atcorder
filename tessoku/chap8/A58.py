@@ -59,44 +59,23 @@ class SegTree:
 
 
 
-N, L, R = map(int, input().split())
-X = list(map(int, input().split()))
-
-dp = [[float('inf') for _ in range(N)] for _ in range(N)]
+N, Q = map(int, input().split())
+A = [0 for _ in range(N)]
 
 #####segfunc#####
-# def segfunc(x, y):
-#     return max(x, y)
-# #################
-
-# #####ide_ele#####
-# ide_ele = -float('inf')
+def segfunc(x, y):
+    return max(x, y)
 #################
 
-# seg = SegTree(A, segfunc, ide_ele)
+#####ide_ele#####
+ide_ele = -float('inf')
+#################
 
-dp[0][0] = 1
-for i in range(1, N):
-    if L <= X[i] - X[0] <=R:
-        dp[0][i] = 1
+seg = SegTree(A, segfunc, ide_ele)
 
-
-ans = 0
-for i in range(1, N):
-    for j in range(i+1, N):
-        print(i, X[i], X[j])
-        if L <= X[j] - X[i] <= R:
-            dp[i][j] = min(dp[i][j], dp[i-1][j]+1)
-    if dp[i][N-1] != float('inf'):
-        ans = dp[i][N-1]
-
-print(dp)
-print(ans)        
-
-
-# for _ in range(Q):
-#     query = list(map(int, input().split()))
-#     if query[0] == 1:
-#         seg.update(query[1]-1, query[2])
-#     elif query[0] == 2:
-#         print(seg.query(query[1]-1, query[2]-1))
+for _ in range(Q):
+    query = list(map(int, input().split()))
+    if query[0] == 1:
+        seg.update(query[1]-1, query[2])
+    elif query[0] == 2:
+        print(seg.query(query[1]-1, query[2]-1))
