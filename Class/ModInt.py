@@ -1,8 +1,3 @@
-import sys
-from collections import deque
-
-MOD = 998244353
-
 class ModInt:
     def __init__(self, x):
         self.x = x % MOD
@@ -67,30 +62,3 @@ class ModInt:
             ModInt(pow(other.x, self.x, MOD)) if isinstance(other, ModInt) else
             ModInt(pow(other, self.x, MOD))
         )
-
-
-
-Q = int(input())
-
-s = deque([1])
-ten_multi = [0 for _ in range((6 * (10 ** 5)) + 1)]
-ten = 1
-for i in range(len(ten_multi)):
-    ten_multi[i] = ten
-    ten = (ten * 10) % MOD
- 
-ans_mod = ModInt(1)
-
-for _ in range(Q):
-    query = list(map(int, input().split()))
-    if query[0] == 1:
-        s.append(query[1])
-        ans_mod = ans_mod * 10 + query[1]
-    elif query[0] == 2:
-        x = s.popleft()
-        sub = x * ten_multi[len(s)]
-        ans_mod -= sub
-    else:
-        print(ans_mod)
-
-
