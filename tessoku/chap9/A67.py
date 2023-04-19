@@ -57,7 +57,7 @@ edges = [] * (M)
 for _ in range(M):
     abc = list(map(int, input().split()))
     edges.append(abc)
-edges = sorted(edges, key=lambda x:x[2], reverse=True)
+edges = sorted(edges, key=lambda x:x[2])
 
 ans = 0
 uf = UnionFind(N+1)
