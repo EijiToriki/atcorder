@@ -20,36 +20,24 @@ def dfs(pos, goal, F, G, used):
 
 
 def maxflow(N, s, t, edges):
-    G = [list() for _ in range(N + 3)]
-    offset = 0
-
-    for i in range(1, N+1):
-        if P[i] >= 0:
-            G[N+1].append(maxflow_edge(i, P[i], len(G[i])))
-            G[i].append(maxflow_edge(N+1, 0, len(G[N+1])-1))
-            offset += P[i]
-        else:
-            G[i].append(maxflow_edge(N+2, -P[i], len(G[N+2])))
-            G[N+2].append(maxflow_edge(i, 0, len(G[i])-1))
-
-    for a, b in edges:
-        G[a].append(maxflow_edge(b, 10**18, len(G[b])))
+    G = [list() for _ in range(N + 1)]
+    for a, b, c in edges:
+        G[a].append(maxflow_edge(b, c, len(G[b])))
         G[b].append(maxflow_edge(a, 0, len(G[a])-1))
     INF = 10 ** 10
     total_flow = 0
     while True:
-        used = [False] * (N+3)
+        used = [False] * (N+1)
         F = dfs(s, t, INF, G, used)
         if F > 0:
             total_flow += F
         else:
             break
-    return offset - total_flow
+    return total_flow
 
 
 N, M = map(int, input().split())
-P = [0] + list(map(int, input().split()))
-edges = [list(map(int, input().split())) for _ in range(M)]
+edges = [list(map(int, input().split())) for i in range(M)]
 
-ans = maxflow(N, N+1, N+2, edges)
+ans = maxflow(N, 1, N, edges)
 print(ans)
