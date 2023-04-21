@@ -53,25 +53,3 @@ class FordFulkerson:
                 break
             ans += F
         return ans
-
-N, M = map(int, input().split())
-C = [input() for _ in range(N)]
-
-G = FordFulkerson(N + 24 + 3)
-for i in range(N):
-    for j in range(24):
-        if C[i][j] == '1':
-            G.add_edge(i+1, N+j+1, 1)
-
-for i in range(1, N+1):
-    G.add_edge(N+24+1, i, 10)
-
-for i in range(24):
-    G.add_edge(N+i+1, N+24+2, M)
-
-ans = G.max_flow(N+24+1, N+24+2)
-
-if 24 * M == ans:
-    print('Yes')
-else:
-    print('No')
