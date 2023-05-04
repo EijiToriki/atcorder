@@ -1,66 +1,24 @@
 H, W = map(int, input().split())
-A, B = [], []
-for _ in range(H):
-    A.append(input())
-for _ in range(H):
-    B.append(input())
+C = [input() for _ in range(H)]
 
-yokoA = []
-tateA = []
+ans = [0] * (min(H, W))
+used = set()
 
-for i in range(H):
-    cnt = 0
-    for j in range(W):
-        if A[i][j] == '#':
-            cnt += 1
-    yokoA.append(cnt)
+for a in range(len(ans), -1, -1):
+    search_range_minH = a+1
+    search_range_maxH = H-(a+1)
+    search_range_minW = a+1
+    search_range_maxW = W-(a+1)
+    for i in range(search_range_minH, search_range_maxH):
+        for j in range(search_range_minW, search_range_maxW):
+            if C[i][j] == "#":
+                ok = True
+                for k in range(1, a+2):
+                    if not(C[i+k][j+k] == "#" and C[i+k][j-k] == "#" and C[i-k][j+k] == "#" and C[i-k][j-k] == "#"):
+                        ok = False
+                        break
+                if ok and (i, j) not in used:
+                    ans[a] += 1
+                    used.add((i, j))
 
-for i in range(W):
-    cnt = 0
-    for j in range(H):
-        if A[j][i] == '#':
-            cnt += 1
-    tateA.append(cnt)
-
-yokoB = []
-tateB = []
-
-for i in range(H):
-    cnt = 0
-    for j in range(W):
-        if B[i][j] == '#':
-            cnt += 1
-    yokoB.append(cnt)
-
-for i in range(W):
-    cnt = 0
-    for j in range(H):
-        if B[j][i] == '#':
-            cnt += 1
-    tateB.append(cnt)
-
-
-flag_yoko = False
-for i in range(H):
-    shift_yokoB = []
-    for j in range(H):
-        shift_yokoB.append(yokoB[(i+j)%H])
-    if yokoA == shift_yokoB:
-        flag_yoko = True
-        break
-
-
-flag_tate = False
-for i in range(W):
-    shift_tateB = []
-    for j in range(W):
-        shift_tateB.append(tateB[(i+j)%W])
-    if tateA == shift_tateB:
-        flag_tate = True
-        break
-
-if flag_yoko and flag_tate:
-    print('Yes')
-else:
-    print('No')
-
+print(*ans)
