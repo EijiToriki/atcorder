@@ -1,34 +1,46 @@
-from collections import defaultdict
-from decimal import Decimal, getcontext
-getcontext().prec = 100
+def is_outer(row, col, N):
+  if row == 0 or row == N-1:
+    return True
+  elif col == 0 or col == N-1:
+    return True
+  else:
+    return False
 
 
-def generate_cointos_rslt(N):
-  cointos_rslts = []
-  for _ in range(N):
-    cointos_dict = defaultdict(Decimal)
-    omote, ura = map(Decimal, input().split())
-    cointos_dict['omote'], cointos_dict['ura'] = omote, ura
-    cointos_rslts.append(cointos_dict)
-  return cointos_rslts
-
-
-def calc_cointos_rate(cointos_rslts):
-  success_rate_list = []
-  for cointos_rslt in cointos_rslts:
-    success_rate = cointos_rslt['omote'] / (cointos_rslt['omote'] + cointos_rslt['ura'])
-    success_rate_list.append(success_rate)
-  return success_rate_list
-
-
-def get_cointos_superior_list(success_rate_list):
-  sorted_list_idx = sorted(range(len(success_rate_list)),key=success_rate_list.__getitem__, reverse=True)
-  sorted_list_idx = [idx + 1 for idx in sorted_list_idx]
-  return sorted_list_idx
+def rotate_one_element(row, col, square, N):
+  if row == 0:
+    if col == 0:
+      return square[row+1][col]
+    else:
+      return square[row][col-1]
+  elif row == N - 1:
+    if col == N - 1:
+      return square[row-1][col]
+    else:
+      return square[row][col+1]
+  else:
+    if col == 0:
+      return square[row+1][col]
+    else:
+      return square[row-1][col]
 
 N = int(input())
-cointos_rslts = generate_cointos_rslt(N)
-success_rate_list = calc_cointos_rate(cointos_rslts)
-superior_list = get_cointos_superior_list(success_rate_list)
+A = []
+for _ in range(N):
+  A_row = input()
+  A.append(A_row)
 
-print(*superior_list)
+B = []
+for i in range(N):
+  B_row = []
+  for j in range(N):
+    rotate_bit = ''
+    if is_outer(i, j, N):
+      rotate_bit = rotate_one_element(i, j, A, N)
+    else:
+      rotate_bit = A[i][j]
+    B_row.append(rotate_bit)
+  B.append(B_row)
+
+for B_row in B:
+  print(''.join(B_row))
