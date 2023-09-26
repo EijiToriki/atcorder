@@ -1,46 +1,35 @@
-def is_outer(row, col, N):
-  if row == 0 or row == N-1:
-    return True
-  elif col == 0 or col == N-1:
-    return True
-  else:
-    return False
+from collections import defaultdict
+
+def sorted_by_day(medicine_cnt_dict):
+  return dict(sorted(medicine_cnt_dict.items()))
+
+def calc_total_medicine(medicine_cnt_dict):
+  total_medicine = 0
+  for medicine_cnt in medicine_cnt_dict.values():
+    total_medicine += medicine_cnt
+  return total_medicine
+
+def medicine_below_K(medicine_cnt_dict, total_medicine, K):
+  if total_medicine <= K:
+    return 1
+  
+  for day, medicine_cnt in medicine_cnt_dict.items():
+    total_medicine -= medicine_cnt
+    if total_medicine <= K:
+      return day + 1
 
 
-def rotate_one_element(row, col, square, N):
-  if row == 0:
-    if col == 0:
-      return square[row+1][col]
-    else:
-      return square[row][col-1]
-  elif row == N - 1:
-    if col == N - 1:
-      return square[row-1][col]
-    else:
-      return square[row][col+1]
-  else:
-    if col == 0:
-      return square[row+1][col]
-    else:
-      return square[row-1][col]
-
-N = int(input())
-A = []
+N, K = map(int, input().split())
+medicine_cnt_dict = defaultdict(int)
+total_medicine = 0
 for _ in range(N):
-  A_row = input()
-  A.append(A_row)
+  a, b = map(int, input().split())
+  medicine_cnt_dict[a] += b
 
-B = []
-for i in range(N):
-  B_row = []
-  for j in range(N):
-    rotate_bit = ''
-    if is_outer(i, j, N):
-      rotate_bit = rotate_one_element(i, j, A, N)
-    else:
-      rotate_bit = A[i][j]
-    B_row.append(rotate_bit)
-  B.append(B_row)
+medicine_cnt_dict = sorted_by_day(medicine_cnt_dict)
+total_medicine = calc_total_medicine(medicine_cnt_dict)
+ans = medicine_below_K(medicine_cnt_dict, total_medicine, K)
+print(ans)
 
-for B_row in B:
-  print(''.join(B_row))
+
+
