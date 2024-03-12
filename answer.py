@@ -1,21 +1,32 @@
 from collections import defaultdict
 
-M, N = map(int, input().split())
-S = input()
-C = list(map(int, input().split()))
+N = int(input())
+F, S = [], []
+for _ in range(N):
+  f, s = map(int, input().split())
+  F.append(f)
+  S.append(s)
 
-color_dict = defaultdict(list)
-for i, c in enumerate(C):
-  color_dict[c].append(i)
+flavor_dict = defaultdict(list)
+for f, s in zip(F, S):
+  flavor_dict[f].append(s)
 
-ans = ["" for _ in range(M)]
-for color, idxes in color_dict.items():
-  len_idxes = len(idxes)
-  for i in range(len_idxes):
-    if i+1 == len_idxes:
-      ans[idxes[0]] = S[idxes[i]]
+maxF, maxS = 0, 0
+for f, s in flavor_dict.items():
+  if maxS < max(s):
+    maxS = max(s)
+    maxF = f
+
+flavor_dict[maxF].remove(maxS)
+ans = maxS
+
+for f, s in flavor_dict.items():
+  if len(s) != 0:
+    if f == maxF:
+      if ans < maxS + (max(s) // 2):
+        ans = maxS + (max(s) // 2)
     else:
-      ans[idxes[i+1]] = S[idxes[i]]
+      if ans < maxS + max(s):
+        ans = maxS + max(s)
 
-print("".join(ans))
-
+print(ans)
